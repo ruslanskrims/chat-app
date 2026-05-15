@@ -1,10 +1,12 @@
 <script setup lang="ts">
-import Sidebar from '@/features/chat/components/Sidebar.vue'
+import ChatSidebar from '@/features/chat/components/ChatSidebar.vue'
+import ChatWindow from '@/features/chat/components/ChatWindow.vue'
 </script>
 
 <template>
   <div class="layout">
-    <Sidebar />
+    <ChatSidebar />
+    <ChatWindow />
   </div>
 </template>
 
