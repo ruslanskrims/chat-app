@@ -1,19 +1,8 @@
 <script setup lang="ts">
-import { useChatStore, type Chat } from '@/features/chat/stores/chatStore'
+import { useChatStore } from '@/features/chat/stores/chatStore'
+import { getLastMessage } from '../utils/chatUtils'
 
 const { chats } = useChatStore()
-
-const getShortenedMessage = (message: string, maxLength: number = 60) => {
-  if (message.length <= maxLength) {
-    return message
-  }
-  return message.slice(0, maxLength) + '...'
-}
-
-const getLastMessage = (chat: Chat) => {
-  const lastMessage = chat.messages[chat.messages.length - 1]
-  return lastMessage ? getShortenedMessage(lastMessage.text) : 'No messages yet...'
-}
 </script>
 
 <template>
