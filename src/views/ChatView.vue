@@ -10,7 +10,12 @@ const chatStore = useChatStore()
 <template>
   <div class="layout">
     <ChatSidebar />
-    <div v-if="chatStore.hasActiveChat" class="layout__chat-container">
+    <div
+      v-if="chatStore.hasActiveChat"
+      class="layout__chat-container"
+      v-loading="chatStore.isMessageToSendLoading"
+      element-loading-text="Loading..."
+    >
       <ChatWindow />
       <ChatInput />
     </div>

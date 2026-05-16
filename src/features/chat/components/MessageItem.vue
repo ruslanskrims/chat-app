@@ -14,7 +14,9 @@ defineProps<{ message: Message }>()
     }"
     :key="message.id"
   >
-    <h3 class="chatwindow__message-item__name">{{ message.sender }}</h3>
+    <h3 class="chatwindow__message-item__name">
+      {{ message.senderType === SenderEnumTypes.User ? 'You' : message.sender }}
+    </h3>
     <div class="chatwindow__message-item__content">
       <h3 class="chatwindow__message-item__text">{{ message.text }}</h3>
     </div>

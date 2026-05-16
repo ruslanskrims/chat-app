@@ -2,14 +2,15 @@
 import { computed, ref } from 'vue'
 import type { InputInstance } from 'element-plus'
 import { useChatStore } from '../stores/chatStore'
+import { useRoute } from 'vue-router'
 
 const chatStore = useChatStore()
-const { addMessage, activeChatId } = chatStore
+const { addMessage } = chatStore
 const textarea = ref<InputInstance>()
 const messageText = ref('')
-
+const route = useRoute()
 const sendMessage = () => {
-  addMessage(activeChatId as string, messageText.value)
+  addMessage(route.params.chatId as string, messageText.value)
   messageText.value = ''
 }
 

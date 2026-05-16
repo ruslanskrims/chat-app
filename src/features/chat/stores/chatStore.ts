@@ -4,8 +4,9 @@ import { v4 as uuidv4 } from 'uuid'
 import { SenderEnumTypes } from '../enums/chatEnums'
 
 export const useChatStore = defineStore('chat', {
-  state: (): { chats: Chat[]; activeChatId: string } => ({
+  state: (): { chats: Chat[]; activeChatId: string; isSendingMessage: boolean } => ({
     activeChatId: '',
+    isSendingMessage: false,
     chats: [
       {
         id: uuidv4(),
@@ -155,24 +156,35 @@ export const useChatStore = defineStore('chat', {
     hasActiveChat(state) {
       return !!state.activeChatId
     },
+    isMessageToSendLoading: (state) => state.isSendingMessage,
   },
   actions: {
-    addMessage(
+    async addMessage(
       chatId: string,
       message: string,
       sender: string = 'user',
       senderType: SenderEnumTypes = SenderEnumTypes.User,
     ) {
-      const chat = this.chats.find((c) => c.id === chatId)
-      if (chat) {
-        chat.messages.push({
+      this.isSendingMessage = true
+      try {
+        await new Promise((resolve) => setTimeout(resolve, 1500))
+        const result = this.chats.find((c) => c.id === chatId)
+        if (!result) {
+          return
+        }
+        this.isSendingMessage = false
+
+        result.messages.push({
           id: uuidv4(),
           text: message,
           sender,
           senderType,
           timestamp: new Date(),
         })
+      } catch {
+        throw new Error('Failed to send message')
       }
+      this.isSendingMessage = false
     },
 
     setActiveChat(chatId: string) {
