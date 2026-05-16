@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
 import type { InputInstance } from 'element-plus'
+import { ElForm, ElInput, ElButton } from 'element-plus'
 import { useChatStore } from '../stores/chatStore'
 import { useRoute } from 'vue-router'
 
@@ -18,8 +19,8 @@ const isBtnDisabled = computed(() => messageText.value.trim() === '')
 </script>
 
 <template>
-  <el-form @submit.prevent="sendMessage" style="display: flex; align-items: center; padding: 10px">
-    <el-input
+  <ElForm @submit.prevent="sendMessage" style="display: flex; align-items: center; padding: 10px">
+    <ElInput
       ref="textarea"
       v-model="messageText"
       type="textarea"
@@ -27,16 +28,16 @@ const isBtnDisabled = computed(() => messageText.value.trim() === '')
       resize="none"
       class="chat-input__textarea"
     />
-    <el-button
+    <ElButton
       type="primary"
       @click="sendMessage"
       size="large"
       class="chat-input__send-btn"
       :disabled="isBtnDisabled"
-      round="true"
-      >Send</el-button
+      round
+      >Send</ElButton
     >
-  </el-form>
+  </ElForm>
 </template>
 
 <style scoped lang="scss">

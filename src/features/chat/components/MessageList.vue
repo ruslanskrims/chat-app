@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import { ElScrollbar } from 'element-plus'
 import MessageItem from './MessageItem.vue'
 import type { Message } from '@/types/message'
 
@@ -6,14 +7,14 @@ defineProps<{ messages: Message[] }>()
 </script>
 
 <template>
-  <el-scrollbar class="chatwindow__message-list">
+  <ElScrollbar class="chatwindow__message-list">
     <MessageItem
       v-for="message in messages"
       :key="message.id"
       :message="message"
       class="chatwindow__message-item"
     />
-  </el-scrollbar>
+  </ElScrollbar>
 </template>
 
 <style scoped lang="scss">

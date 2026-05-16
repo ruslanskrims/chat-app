@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { ElHeader, ElLink } from 'element-plus'
 import { useChatStore } from '@/features/chat/stores/chatStore'
 import { useRouter } from 'vue-router'
 
@@ -11,12 +12,12 @@ const navigateToHomePage = () => {
 </script>
 
 <template>
-  <el-header>
-    <div class="el-header__link" @click="navigateToHomePage">
+  <ElHeader>
+    <ElLink class="el-header__link" @click="navigateToHomePage">
       <span class="el-header__logo"></span>
       <span class="el-header__text">Chat App</span>
-    </div>
-  </el-header>
+    </ElLink>
+  </ElHeader>
 </template>
 
 <style scoped lang="scss">

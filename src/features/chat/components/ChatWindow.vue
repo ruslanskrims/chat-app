@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import { ElContainer } from 'element-plus'
 import { useChatStore } from '@/features/chat/stores/chatStore'
 import { computed } from 'vue'
 import MessageList from './MessageList.vue'
@@ -14,11 +15,11 @@ const messages = computed(() => {
 </script>
 
 <template>
-  <el-container class="chatwindow__container">
+  <ElContainer class="chatwindow__container">
     <div class="chatwindow__content">
       <MessageList :messages="messages" />
     </div>
-  </el-container>
+  </ElContainer>
 </template>
 
 <style scoped lang="scss">

@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { ElEmpty } from 'element-plus'
 import ChatSidebar from '@/features/chat/components/ChatSidebar.vue'
 import ChatWindow from '@/features/chat/components/ChatWindow.vue'
 import ChatInput from '@/features/chat/components/ChatInput.vue'
@@ -19,7 +20,7 @@ const chatStore = useChatStore()
       <ChatWindow />
       <ChatInput />
     </div>
-    <el-empty
+    <ElEmpty
       v-else
       description="Greetings! Select a chat to start messaging"
       class="layout__empty-container"

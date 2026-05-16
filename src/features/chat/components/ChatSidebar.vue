@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { ElMessageBox, ElAside, ElButton } from 'element-plus'
+import { Plus } from '@element-plus/icons-vue'
 import { useChatStore } from '@/features/chat/stores/chatStore'
 import ChatList from './ChatList.vue'
 
@@ -6,12 +8,21 @@ const { chats } = useChatStore()
 </script>
 
 <template>
-  <el-aside class="sidebar__aside">
+  <ElAside class="sidebar__aside">
     <div class="sidebar__header">
       <h2 class="sidebar__header-title">Chats</h2>
+      <ElButton type="primary" size="large" round class="new-chat-btn" :icon="Plus"
+        >New Chat</ElButton
+      >
     </div>
+    <!--TODO - add functionality to create new chat and show the message box(form)-->
+    <!-- <ElMessageBox
+      title="Create New Chat"
+      :showCancelButton="true"
+      @confirm="() => console.log('Chat created')"
+    /> -->
     <ChatList :chats="chats" />
-  </el-aside>
+  </ElAside>
 </template>
 
 <style scoped lang="scss">
@@ -33,6 +44,8 @@ const { chats } = useChatStore()
 
   &__header {
     flex-shrink: 0;
+    display: flex;
+    justify-content: space-between;
     padding: 15px;
     border-bottom: 1px solid rgba(0, 0, 0, 0.1);
   }

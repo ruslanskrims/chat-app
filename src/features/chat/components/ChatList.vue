@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import { ElScrollbar } from 'element-plus'
 import type { Chat } from '@/types/chat'
 import ChatItem from './ChatItem.vue'
 import { useRoute } from 'vue-router'
@@ -10,14 +11,14 @@ const activeChatId = computed(() => route.params.chatId as string)
 </script>
 
 <template>
-  <el-scrollbar class="sidebar__chat-list">
+  <ElScrollbar class="sidebar__chat-list">
     <ChatItem
       v-for="chat in chats"
       :key="chat.id"
       :chat="chat"
       :is-active="activeChatId === chat.id"
     />
-  </el-scrollbar>
+  </ElScrollbar>
 </template>
 
 <style scoped lang="scss">
