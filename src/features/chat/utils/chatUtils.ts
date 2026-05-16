@@ -1,4 +1,5 @@
-import type { Chat } from '../stores/chatStore'
+import type { Chat } from '@/types/chat'
+import { SenderEnumTypes } from '../enums/chatEnums'
 
 const getShortenedMessage = (message: string, maxLength: number = 60) => {
   if (message.length <= maxLength) {
@@ -9,5 +10,8 @@ const getShortenedMessage = (message: string, maxLength: number = 60) => {
 
 export const getLastMessage = (chat: Chat) => {
   const lastMessage = chat.messages[chat.messages.length - 1]
-  return lastMessage ? getShortenedMessage(lastMessage.text) : 'No messages yet...'
+  const lastMessageWithSender = lastMessage
+    ? `${lastMessage.senderType === SenderEnumTypes.User ? 'You' : lastMessage.sender}: ${lastMessage.text}`
+    : ''
+  return lastMessage ? getShortenedMessage(lastMessageWithSender) : 'No messages yet...'
 }

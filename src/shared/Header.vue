@@ -1,9 +1,21 @@
+<script setup lang="ts">
+import { useChatStore } from '@/features/chat/stores/chatStore'
+import { useRouter } from 'vue-router'
+
+const { clearActiveChat } = useChatStore()
+const router = useRouter()
+const navigateToHomePage = () => {
+  clearActiveChat()
+  router.push('/')
+}
+</script>
+
 <template>
   <el-header>
-    <RouterLink to="/" class="el-header__link">
+    <div class="el-header__link" @click="navigateToHomePage">
       <span class="el-header__logo"></span>
       <span class="el-header__text">Chat App</span>
-    </RouterLink>
+    </div>
   </el-header>
 </template>
 
@@ -20,6 +32,7 @@
     flex-direction: row;
     align-items: center;
     gap: 8px;
+    cursor: pointer;
     text-decoration: none;
   }
 

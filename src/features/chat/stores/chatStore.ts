@@ -4,7 +4,8 @@ import { v4 as uuidv4 } from 'uuid'
 import { SenderEnumTypes } from '../enums/chatEnums'
 
 export const useChatStore = defineStore('chat', {
-  state: (): { chats: Chat[] } => ({
+  state: (): { chats: Chat[]; activeChatId: string } => ({
+    activeChatId: '',
     chats: [
       {
         id: uuidv4(),
@@ -150,4 +151,36 @@ export const useChatStore = defineStore('chat', {
       },
     ],
   }),
+  getters: {
+    hasActiveChat(state) {
+      return !!state.activeChatId
+    },
+  },
+  actions: {
+    addMessage(
+      chatId: string,
+      message: string,
+      sender: string = 'user',
+      senderType: SenderEnumTypes = SenderEnumTypes.User,
+    ) {
+      const chat = this.chats.find((c) => c.id === chatId)
+      if (chat) {
+        chat.messages.push({
+          id: uuidv4(),
+          text: message,
+          sender,
+          senderType,
+          timestamp: new Date(),
+        })
+      }
+    },
+
+    setActiveChat(chatId: string) {
+      this.activeChatId = chatId
+    },
+
+    clearActiveChat() {
+      this.activeChatId = ''
+    },
+  },
 })

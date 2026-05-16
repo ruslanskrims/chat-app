@@ -1,23 +1,21 @@
 <script lang="ts" setup>
 import { useChatStore } from '@/features/chat/stores/chatStore'
 import { computed } from 'vue'
-import { useRoute } from 'vue-router'
 import MessageList from './MessageList.vue'
+import { storeToRefs } from 'pinia'
 
-const route = useRoute()
-const { chats } = useChatStore()
-
-const chatId = computed(() => route.params.chatId as string)
+const chatStore = useChatStore()
+const { chats, activeChatId } = storeToRefs(chatStore)
 
 const messages = computed(() => {
-  const chat = chats.find((c) => c.id === chatId.value)
+  const chat = chats.value.find((c) => c.id === activeChatId.value)
   return chat ? chat.messages : []
 })
 </script>
 
 <template>
   <el-container class="chatwindow__container">
-    <div v-if="chatId" class="chatwindow__content">
+    <div class="chatwindow__content">
       <MessageList :messages="messages" />
     </div>
   </el-container>

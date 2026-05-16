@@ -1,25 +1,33 @@
 <script lang="ts" setup>
 import type { Chat } from '@/types/chat'
 import { getLastMessage } from '../utils/chatUtils'
+import { useRouter } from 'vue-router'
+import { useChatStore } from '../stores/chatStore'
 
-defineProps<{ chat: Chat }>()
+const router = useRouter()
+const { setActiveChat } = useChatStore()
+
+const navigateToChat = (chatId: string) => {
+  setActiveChat(chatId)
+  router.push(`/chat/${chatId}`)
+}
+defineProps<{ chat: Chat; isActive: boolean }>()
 </script>
 
 <template>
-  <RouterLink :to="`/chat/${chat.id}`">
-    <div
-      class="sidebar__chat-item"
-      :key="chat.id"
-      :class="{ 'sidebar__chat-item--active': $route.params.chatId === chat.id }"
-    >
-      <div class="sidebar__chat-item__content">
-        <h3 class="sidebar__chat-item__name">{{ chat.title }}</h3>
-        <p class="sidebar__chat-item__last-message">
-          {{ getLastMessage(chat) }}
-        </p>
-      </div>
+  <div
+    class="sidebar__chat-item"
+    :key="chat.id"
+    :class="{ 'sidebar__chat-item--active': isActive }"
+    @click="navigateToChat(chat.id)"
+  >
+    <div class="sidebar__chat-item__content">
+      <h3 class="sidebar__chat-item__name">{{ chat.title }}</h3>
+      <p class="sidebar__chat-item__last-message">
+        {{ getLastMessage(chat) }}
+      </p>
     </div>
-  </RouterLink>
+  </div>
 </template>
 
 <style scoped lang="scss">
