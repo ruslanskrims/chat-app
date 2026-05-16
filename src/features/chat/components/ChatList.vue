@@ -1,6 +1,6 @@
 <script lang="ts" setup>
+import type { Chat } from '@/types/chat'
 import ChatItem from './ChatItem.vue'
-import type { Chat } from '../stores/chatStore'
 
 defineProps<{ chats: Chat[] }>()
 </script>

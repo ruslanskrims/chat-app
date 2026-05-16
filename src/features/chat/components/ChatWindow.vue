@@ -2,6 +2,7 @@
 import { useChatStore } from '@/features/chat/stores/chatStore'
 import { computed } from 'vue'
 import { useRoute } from 'vue-router'
+import MessageList from './MessageList.vue'
 
 const route = useRoute()
 const { chats } = useChatStore()
@@ -17,13 +18,7 @@ const messages = computed(() => {
 <template>
   <el-container class="chatwindow__container">
     <div v-if="chatId" class="chatwindow__content">
-      <el-scrollbar class="chatwindow__message-list">
-        <div class="chatwindow__message-item" v-for="message in messages" :key="message.id">
-          <div class="chatwindow__message-item__content">
-            <h3 class="chatwindow__message-item__name">{{ message.text }}</h3>
-          </div>
-        </div>
-      </el-scrollbar>
+      <MessageList :messages="messages" />
     </div>
   </el-container>
 </template>

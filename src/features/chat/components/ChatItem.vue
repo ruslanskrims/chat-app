@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type { Chat } from '../stores/chatStore'
+import type { Chat } from '@/types/chat'
 import { getLastMessage } from '../utils/chatUtils'
 
 defineProps<{ chat: Chat }>()
@@ -7,7 +7,11 @@ defineProps<{ chat: Chat }>()
 
 <template>
   <RouterLink :to="`/chat/${chat.id}`">
-    <div class="sidebar__chat-item" :key="chat.id">
+    <div
+      class="sidebar__chat-item"
+      :key="chat.id"
+      :class="{ 'sidebar__chat-item--active': $route.params.chatId === chat.id }"
+    >
       <div class="sidebar__chat-item__content">
         <h3 class="sidebar__chat-item__name">{{ chat.title }}</h3>
         <p class="sidebar__chat-item__last-message">
@@ -44,6 +48,16 @@ a {
       margin: 5px 0 0;
       font-size: 14px;
       color: #666;
+    }
+    &--active {
+      background-color: #409eff;
+      color: #fff;
+      .sidebar__chat-item__last-message {
+        color: #fff;
+      }
+      &:hover {
+        background-color: #409eff;
+      }
     }
   }
 }

@@ -1,145 +1,150 @@
+import type { Chat } from '@/types/chat'
 import { defineStore } from 'pinia'
 import { v4 as uuidv4 } from 'uuid'
-
-export interface Chat {
-  id: string
-  title: string
-  messages: Message[]
-}
-
-export interface Message {
-  id: string
-  text: string
-  sender: string
-  timestamp: Date
-}
+import { SenderEnumTypes } from '../enums/chatEnums'
 
 export const useChatStore = defineStore('chat', {
   state: (): { chats: Chat[] } => ({
     chats: [
       {
         id: uuidv4(),
-        title: 'Ashley Mock',
+        title: 'Bot Ashley',
         messages: [
           {
             id: uuidv4(),
             text: 'Hi there, dear candidate. How are you doing today?',
-            sender: 'Ashley Mock',
+            sender: 'Bot Ashley',
             timestamp: new Date(),
+            senderType: SenderEnumTypes.Bot,
           },
           {
             id: uuidv4(),
             text: 'Good afternoon, Ashley. I am doing well, thank you. How about you?',
-            sender: 'Ashley',
+            sender: 'user',
             timestamp: new Date(),
+            senderType: SenderEnumTypes.User,
           },
           {
             id: uuidv4(),
             text: 'I am doing great, thank you for asking! I wanted to discuss the next steps in the interview process with you.',
-            sender: 'Ashley',
+            sender: 'Bot Ashley',
             timestamp: new Date(),
+            senderType: SenderEnumTypes.Bot,
           },
         ],
       },
       {
         id: uuidv4(),
-        title: 'Sarah Chen',
+        title: 'Bot Sarah',
         messages: [
           {
             id: uuidv4(),
             text: 'Hey! Loved your portfolio website! 🚀',
-            sender: 'Sarah Chen',
+            sender: 'Bot Sarah',
             timestamp: new Date(),
+            senderType: SenderEnumTypes.Bot,
           },
           {
             id: uuidv4(),
             text: 'Thank you so much! I put a lot of work into the animations.',
             sender: 'user',
             timestamp: new Date(),
+            senderType: SenderEnumTypes.User,
           },
           {
             id: uuidv4(),
             text: 'The Vue.js skills really show. Are you open to freelance work?',
-            sender: 'Sarah Chen',
+            sender: 'Bot Sarah',
             timestamp: new Date(),
+            senderType: SenderEnumTypes.Bot,
           },
         ],
       },
       {
         id: uuidv4(),
-        title: 'Michael Rodriguez',
+        title: 'Bot Michael',
         messages: [
           {
             id: uuidv4(),
             text: 'Code review for the chat app is ready! ✅',
-            sender: 'Michael Rodriguez',
+            sender: 'Bot Michael',
             timestamp: new Date(),
+            senderType: SenderEnumTypes.Bot,
           },
           {
             id: uuidv4(),
             text: 'Awesome! Any major issues I should address?',
             sender: 'user',
             timestamp: new Date(),
+            senderType: SenderEnumTypes.User,
           },
           {
             id: uuidv4(),
             text: 'Just small optimizations. The UUID implementation was a smart move!',
-            sender: 'Michael Rodriguez',
+            sender: 'Bot Michael',
             timestamp: new Date(),
+            senderType: SenderEnumTypes.Bot,
           },
         ],
       },
       {
         id: uuidv4(),
-        title: 'UX Design Team',
+        title: 'Bot UX',
         messages: [
           {
             id: uuidv4(),
             text: 'New design system mockups are ready for review 🎨',
-            sender: 'Emma (Designer)',
+            sender: 'Bot UX',
             timestamp: new Date(),
+            senderType: SenderEnumTypes.Bot,
           },
           {
             id: uuidv4(),
             text: 'Love the new color scheme! The dark blue looks professional',
             sender: 'user',
             timestamp: new Date(),
+            senderType: SenderEnumTypes.User,
           },
           {
             id: uuidv4(),
             text: 'Can we add micro-interactions to the chat bubbles?',
-            sender: 'David (PM)',
+            sender: 'Bot UX',
             timestamp: new Date(),
+            senderType: SenderEnumTypes.Bot,
           },
           {
             id: uuidv4(),
             text: 'Great idea! I can implement those this week',
             sender: 'user',
             timestamp: new Date(),
+            senderType: SenderEnumTypes.User,
           },
         ],
       },
       {
         id: uuidv4(),
-        title: 'Technical Interview Prep',
+        title: 'Bot Interview Coach',
         messages: [
           {
             id: uuidv4(),
             text: "Ready for tomorrow's system design interview? 💪",
-            sender: 'Interview Coach',
+            sender: 'Bot Interview Coach',
             timestamp: new Date(),
+            senderType: SenderEnumTypes.Bot,
           },
           {
             id: uuidv4(),
             text: 'A bit nervous but prepared! Been practicing scaling chat apps',
             sender: 'user',
             timestamp: new Date(),
+            senderType: SenderEnumTypes.User,
           },
           {
             id: uuidv4(),
             text: "That's perfect. Remember to mention UUIDs and real-time architecture!",
-            sender: 'Interview Coach',
+            sender: 'Bot Interview Coach',
             timestamp: new Date(),
+            senderType: SenderEnumTypes.Bot,
           },
         ],
       },
