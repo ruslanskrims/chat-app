@@ -1,31 +1,12 @@
 <script setup lang="ts">
-import { computed, ref } from 'vue'
-import type { InputInstance } from 'element-plus'
-import { ElForm, ElInput, ElButton, ElAlert, ElContainer } from 'element-plus'
-import { useChatStore } from '../stores/chatStore'
-import { useRoute } from 'vue-router'
-import { useError } from '@/composables/useError'
-import { isTextEmpty } from '../utils/chatUtils'
+import { ElForm, ElInput, ElButton, ElAlert, ElContainer, type InputInstance } from 'element-plus'
+import { useChatMessages } from '@/composables/useChatMessages'
+import { ref } from 'vue'
 
-const chatStore = useChatStore()
-const { addMessage, clearAddMessageError } = chatStore
-const { errorMessage, setError } = useError()
+const { sendMessage, errorMessage, clearError, canSendMessage, messageText, isSending } =
+  useChatMessages()
 
 const textarea = ref<InputInstance>()
-const messageText = ref('')
-const route = useRoute()
-const sendMessage = async () => {
-  if (isTextEmpty(messageText.value)) return
-
-  try {
-    await addMessage(route.params.chatId as string, messageText.value)
-  } catch {
-    setError('Faled to add a message. Try again')
-  }
-  messageText.value = ''
-}
-
-const isBtnDisabled = computed(() => isTextEmpty(messageText.value))
 </script>
 
 <template>
@@ -36,7 +17,7 @@ const isBtnDisabled = computed(() => isTextEmpty(messageText.value))
       :title="errorMessage"
       type="error"
       show-icon
-      @close="clearAddMessageError"
+      @close="clearError"
     />
     <ElForm @submit.prevent="sendMessage" style="display: flex; align-items: center; padding: 10px">
       <ElInput
@@ -52,9 +33,10 @@ const isBtnDisabled = computed(() => isTextEmpty(messageText.value))
         @click="sendMessage"
         size="large"
         class="chat-input__send-btn"
-        :disabled="isBtnDisabled"
+        :disabled="canSendMessage"
+        :loading="isSending"
         round
-        >Send</ElButton
+        >{{ isSending ? 'Sending' : 'Send' }}</ElButton
       >
     </ElForm>
   </ElContainer>

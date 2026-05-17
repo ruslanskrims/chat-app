@@ -9,13 +9,11 @@ export const useChatStore = defineStore('chat', {
   state: (): {
     chats: Chat[]
     activeChatId: string
-    isSendingMessage: boolean
     isChatCreateLoading: boolean
     isCreateChatHasError: boolean
     isSendingMessageHasError: boolean
   } => ({
     activeChatId: '',
-    isSendingMessage: false,
     isChatCreateLoading: false,
     isCreateChatHasError: false,
     isSendingMessageHasError: false,
@@ -168,7 +166,6 @@ export const useChatStore = defineStore('chat', {
     hasActiveChat(state) {
       return !!state.activeChatId
     },
-    isMessageToSendLoading: (state) => state.isSendingMessage,
     createChatHasError: (state) => state.isCreateChatHasError,
   },
   actions: {
@@ -178,13 +175,13 @@ export const useChatStore = defineStore('chat', {
       sender: string = 'user',
       senderType: SenderEnumTypes = SenderEnumTypes.User,
     ) {
-      this.isSendingMessage = true
       try {
-        await new Promise((resolve) => setTimeout(resolve, 1500))
+        await new Promise((resolve) => setTimeout(resolve, 1000))
         const result = this.chats.find((c) => c.id === chatId)
         if (!result) {
           return
         }
+
         result.messages.push({
           id: uuidv4(),
           text: message,
@@ -195,14 +192,8 @@ export const useChatStore = defineStore('chat', {
 
         this.addBotResponse(chatId, message)
       } catch {
-        throw new Error()
-      } finally {
-        this.isSendingMessage = false
+        throw new Error('Failed to add message')
       }
-    },
-
-    clearAddMessageError() {
-      this.isSendingMessageHasError = false
     },
 
     async createChat(name: string) {

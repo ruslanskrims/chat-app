@@ -1,17 +1,10 @@
 <script lang="ts" setup>
 import type { Chat } from '@/types/chat'
 import { getLastMessage } from '../utils/chatUtils'
-import { useRouter } from 'vue-router'
-import { useChatStore } from '../stores/chatStore'
+import { useChatNavigation } from '@/composables/useChatNavigation'
 
-const router = useRouter()
-const { setActiveChat } = useChatStore()
-
-const navigateToChat = (chatId: string) => {
-  setActiveChat(chatId)
-  router.push(`/chat/${chatId}`)
-}
 defineProps<{ chat: Chat; isActive: boolean }>()
+const { navigateToChat } = useChatNavigation()
 </script>
 
 <template>

@@ -4,19 +4,16 @@ import ChatSidebar from '@/features/chat/components/ChatSidebar.vue'
 import ChatWindow from '@/features/chat/components/ChatWindow.vue'
 import ChatInput from '@/features/chat/components/ChatInput.vue'
 import { useChatStore } from '@/features/chat/stores/chatStore'
+import { storeToRefs } from 'pinia'
 
 const chatStore = useChatStore()
+const { hasActiveChat, isChatCreateLoading } = storeToRefs(chatStore)
 </script>
 
 <template>
   <div class="layout">
-    <ChatSidebar v-loading="chatStore.isChatCreateLoading" element-loading-text="Loading..." />
-    <div
-      v-if="chatStore.hasActiveChat"
-      class="layout__chat-container"
-      v-loading="chatStore.isMessageToSendLoading"
-      element-loading-text="Loading..."
-    >
+    <ChatSidebar v-loading="isChatCreateLoading" element-loading-text="Loading..." />
+    <div v-if="hasActiveChat" class="layout__chat-container" element-loading-text="Loading...">
       <ChatWindow />
       <ChatInput />
     </div>
