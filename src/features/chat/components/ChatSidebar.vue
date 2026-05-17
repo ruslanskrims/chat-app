@@ -27,13 +27,14 @@ const closeCreateChatModal = () => {
 const handleCreateChat = async () => {
   if (!isTextEmpty(newChatName.value)) {
     try {
-      await createChat(newChatName.value)
       closeCreateChatModal()
+      await createChat(newChatName.value)
     } catch {
       setError('Could not create a chat. Try again')
+    } finally {
+      closeCreateChatModal()
     }
   }
-  closeCreateChatModal()
 }
 </script>
 

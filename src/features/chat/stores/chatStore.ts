@@ -183,7 +183,6 @@ export const useChatStore = defineStore('chat', {
         if (!result) {
           return
         }
-        this.isSendingMessage = false
         result.messages.push({
           id: uuidv4(),
           text: message,
@@ -196,18 +195,6 @@ export const useChatStore = defineStore('chat', {
       } finally {
         this.isSendingMessage = false
       }
-    },
-
-    setActiveChat(chatId: string) {
-      this.activeChatId = chatId
-    },
-
-    clearActiveChat() {
-      this.activeChatId = ''
-    },
-
-    clearCreateChatError() {
-      this.isCreateChatHasError = false
     },
 
     clearAddMessageError() {
@@ -226,16 +213,25 @@ export const useChatStore = defineStore('chat', {
           messages: [],
           createdAt: new Date(),
         }
-        this.isChatCreateLoading = false
-
         this.chats.push(newChat)
-        // throw new Error('Failed to create chat 1')
       } catch {
         this.isCreateChatHasError = true
-        throw new Error('Failed to create chat 2')
+        throw new Error('Failed to create chat')
       } finally {
         this.isChatCreateLoading = false
       }
+    },
+
+    setActiveChat(chatId: string) {
+      this.activeChatId = chatId
+    },
+
+    clearActiveChat() {
+      this.activeChatId = ''
+    },
+
+    clearCreateChatError() {
+      this.isCreateChatHasError = false
     },
   },
 })
