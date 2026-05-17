@@ -4,9 +4,17 @@ import { v4 as uuidv4 } from 'uuid'
 import { SenderEnumTypes } from '../enums/chatEnums'
 
 export const useChatStore = defineStore('chat', {
-  state: (): { chats: Chat[]; activeChatId: string; isSendingMessage: boolean } => ({
+  state: (): {
+    chats: Chat[]
+    activeChatId: string
+    isSendingMessage: boolean
+    isChatCreateLoading: boolean
+    isChatCreateError: boolean
+  } => ({
     activeChatId: '',
     isSendingMessage: false,
+    isChatCreateLoading: false,
+    isChatCreateError: false,
     chats: [
       {
         id: uuidv4(),
@@ -16,21 +24,21 @@ export const useChatStore = defineStore('chat', {
             id: uuidv4(),
             text: 'Hi there, dear candidate. How are you doing today?',
             sender: 'Bot Ashley',
-            timestamp: new Date(),
+            created: new Date(),
             senderType: SenderEnumTypes.Bot,
           },
           {
             id: uuidv4(),
             text: 'Good afternoon, Ashley. I am doing well, thank you. How about you?',
             sender: 'user',
-            timestamp: new Date(),
+            created: new Date(),
             senderType: SenderEnumTypes.User,
           },
           {
             id: uuidv4(),
             text: 'I am doing great, thank you for asking! I wanted to discuss the next steps in the interview process with you.',
             sender: 'Bot Ashley',
-            timestamp: new Date(),
+            created: new Date(),
             senderType: SenderEnumTypes.Bot,
           },
         ],
@@ -43,21 +51,21 @@ export const useChatStore = defineStore('chat', {
             id: uuidv4(),
             text: 'Hey! Loved your portfolio website! 🚀',
             sender: 'Bot Sarah',
-            timestamp: new Date(),
+            created: new Date(),
             senderType: SenderEnumTypes.Bot,
           },
           {
             id: uuidv4(),
             text: 'Thank you so much! I put a lot of work into the animations.',
             sender: 'user',
-            timestamp: new Date(),
+            created: new Date(),
             senderType: SenderEnumTypes.User,
           },
           {
             id: uuidv4(),
             text: 'The Vue.js skills really show. Are you open to freelance work?',
             sender: 'Bot Sarah',
-            timestamp: new Date(),
+            created: new Date(),
             senderType: SenderEnumTypes.Bot,
           },
         ],
@@ -70,21 +78,21 @@ export const useChatStore = defineStore('chat', {
             id: uuidv4(),
             text: 'Code review for the chat app is ready! ✅',
             sender: 'Bot Michael',
-            timestamp: new Date(),
+            created: new Date(),
             senderType: SenderEnumTypes.Bot,
           },
           {
             id: uuidv4(),
             text: 'Awesome! Any major issues I should address?',
             sender: 'user',
-            timestamp: new Date(),
+            created: new Date(),
             senderType: SenderEnumTypes.User,
           },
           {
             id: uuidv4(),
             text: 'Just small optimizations. The UUID implementation was a smart move!',
             sender: 'Bot Michael',
-            timestamp: new Date(),
+            created: new Date(),
             senderType: SenderEnumTypes.Bot,
           },
         ],
@@ -97,28 +105,28 @@ export const useChatStore = defineStore('chat', {
             id: uuidv4(),
             text: 'New design system mockups are ready for review 🎨',
             sender: 'Bot UX',
-            timestamp: new Date(),
+            created: new Date(),
             senderType: SenderEnumTypes.Bot,
           },
           {
             id: uuidv4(),
             text: 'Love the new color scheme! The dark blue looks professional',
             sender: 'user',
-            timestamp: new Date(),
+            created: new Date(),
             senderType: SenderEnumTypes.User,
           },
           {
             id: uuidv4(),
             text: 'Can we add micro-interactions to the chat bubbles?',
             sender: 'Bot UX',
-            timestamp: new Date(),
+            created: new Date(),
             senderType: SenderEnumTypes.Bot,
           },
           {
             id: uuidv4(),
             text: 'Great idea! I can implement those this week',
             sender: 'user',
-            timestamp: new Date(),
+            created: new Date(),
             senderType: SenderEnumTypes.User,
           },
         ],
@@ -131,21 +139,21 @@ export const useChatStore = defineStore('chat', {
             id: uuidv4(),
             text: "Ready for tomorrow's system design interview? 💪",
             sender: 'Bot Interview Coach',
-            timestamp: new Date(),
+            created: new Date(),
             senderType: SenderEnumTypes.Bot,
           },
           {
             id: uuidv4(),
             text: 'A bit nervous but prepared! Been practicing scaling chat apps',
             sender: 'user',
-            timestamp: new Date(),
+            created: new Date(),
             senderType: SenderEnumTypes.User,
           },
           {
             id: uuidv4(),
             text: "That's perfect. Remember to mention UUIDs and real-time architecture!",
             sender: 'Bot Interview Coach',
-            timestamp: new Date(),
+            created: new Date(),
             senderType: SenderEnumTypes.Bot,
           },
         ],
@@ -179,7 +187,7 @@ export const useChatStore = defineStore('chat', {
           text: message,
           sender,
           senderType,
-          timestamp: new Date(),
+          created: new Date(),
         })
       } catch {
         throw new Error('Failed to send message')
@@ -193,6 +201,29 @@ export const useChatStore = defineStore('chat', {
 
     clearActiveChat() {
       this.activeChatId = ''
+    },
+
+    async createChat(name: string) {
+      try {
+        this.isChatCreateLoading = true
+        this.isChatCreateLoading = true
+        await new Promise((resolve) => setTimeout(resolve, 1000))
+
+        const newChat: Chat = {
+          id: uuidv4(),
+          title: name,
+          messages: [],
+          createdAt: new Date(),
+        }
+
+        this.isChatCreateLoading = false
+        this.chats.push(newChat)
+      } catch {
+        this.isChatCreateError = true
+        throw new Error('Failed to create chat 2')
+      } finally {
+        this.isChatCreateLoading = false
+      }
     },
   },
 })

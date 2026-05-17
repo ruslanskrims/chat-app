@@ -5,5 +5,5 @@ export interface Message {
   text: string
   sender: string
   senderType: SenderEnumTypes
-  timestamp: Date
+  created: Date
 }
