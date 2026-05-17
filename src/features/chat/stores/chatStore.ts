@@ -2,6 +2,8 @@ import type { Chat } from '@/types/chat'
 import { defineStore } from 'pinia'
 import { v4 as uuidv4 } from 'uuid'
 import { SenderEnumTypes } from '../enums/chatEnums'
+import type { Message } from '@/types/message'
+import { createBotResponse } from '../utils/chatUtils'
 
 export const useChatStore = defineStore('chat', {
   state: (): {
@@ -190,6 +192,8 @@ export const useChatStore = defineStore('chat', {
           senderType,
           created: new Date(),
         })
+
+        this.addBotResponse(chatId, message)
       } catch {
         throw new Error()
       } finally {
@@ -232,6 +236,37 @@ export const useChatStore = defineStore('chat', {
 
     clearCreateChatError() {
       this.isCreateChatHasError = false
+    },
+
+    async addBotResponse(chatId: string, message: string, botName: string = 'Bot') {
+      await new Promise((resolve) => setTimeout(resolve, 2000))
+
+      const botReply = this.generateBotMessage(message)
+
+      if (!botReply) {
+        return
+      }
+
+      const actualChat = this.chats.find((c) => c.id === chatId)
+
+      const existingBotName =
+        actualChat?.messages.find((c) => c.senderType === SenderEnumTypes.Bot)?.sender || ''
+
+      const botMessage: Message = {
+        id: uuidv4(),
+        text: botReply,
+        sender: existingBotName || botName,
+        senderType: SenderEnumTypes.Bot,
+        created: new Date(),
+      }
+
+      if (actualChat) {
+        actualChat.messages.push(botMessage)
+      }
+    },
+
+    generateBotMessage(userMessage: string) {
+      return createBotResponse(userMessage)
     },
   },
 })
