@@ -11,12 +11,10 @@ export const useChatStore = defineStore('chat', {
     activeChatId: string
     isChatCreateLoading: boolean
     isCreateChatHasError: boolean
-    isSendingMessageHasError: boolean
   } => ({
     activeChatId: '',
     isChatCreateLoading: false,
     isCreateChatHasError: false,
-    isSendingMessageHasError: false,
     chats: [
       {
         id: uuidv4(),
