@@ -5,25 +5,35 @@ import { useChatStore } from '@/features/chat/stores/chatStore'
 import ChatList from './ChatList.vue'
 import { ref } from 'vue'
 import CreateChatForm from './CreateChatForm.vue'
+import { useError } from '@/composables/useError'
+import { isTextEmpty } from '../utils/chatUtils'
 
-const { chats, createChat, isChatCreateError } = useChatStore()
+const { chats, createChat, clearCreateChatError } = useChatStore()
+const { errorMessage, setError, clearError } = useError()
 
 const isModalVisible = ref(false)
 const newChatName = ref('')
 const openCreateChatModal = () => {
   newChatName.value = ''
   isModalVisible.value = true
+  clearCreateChatError()
+  clearError()
 }
 
 const closeCreateChatModal = () => {
   isModalVisible.value = false
 }
 
-const handleCreateChat = () => {
-  if (newChatName.value.trim()) {
-    createChat(newChatName.value)
-    closeCreateChatModal()
+const handleCreateChat = async () => {
+  if (!isTextEmpty(newChatName.value)) {
+    try {
+      await createChat(newChatName.value)
+      closeCreateChatModal()
+    } catch {
+      setError('Could not create a chat. Try again')
+    }
   }
+  closeCreateChatModal()
 }
 </script>
 
@@ -41,12 +51,18 @@ const handleCreateChat = () => {
         >New Chat</ElButton
       >
     </div>
-
+    <ElAlert
+      v-if="errorMessage"
+      width="100%"
+      :title="errorMessage"
+      type="error"
+      show-icon
+      @close="clearCreateChatError"
+    />
     <CreateChatForm
       :isModalVisible="isModalVisible"
       :newChatName="newChatName"
       :closeCreateChatModal="closeCreateChatModal"
-      :error="isChatCreateError"
       @update:newChatName="newChatName = $event"
       @createChat="handleCreateChat"
     />

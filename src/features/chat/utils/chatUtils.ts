@@ -15,3 +15,7 @@ export const getLastMessage = (chat: Chat) => {
     : ''
   return lastMessage ? getShortenedMessage(lastMessageWithSender) : 'No messages yet...'
 }
+
+export const isTextEmpty = (text: string) => {
+  return text.trim() === ''
+}

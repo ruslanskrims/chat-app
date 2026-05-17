@@ -9,12 +9,14 @@ export const useChatStore = defineStore('chat', {
     activeChatId: string
     isSendingMessage: boolean
     isChatCreateLoading: boolean
-    isChatCreateError: boolean
+    isCreateChatHasError: boolean
+    isSendingMessageHasError: boolean
   } => ({
     activeChatId: '',
     isSendingMessage: false,
     isChatCreateLoading: false,
-    isChatCreateError: false,
+    isCreateChatHasError: false,
+    isSendingMessageHasError: false,
     chats: [
       {
         id: uuidv4(),
@@ -165,6 +167,7 @@ export const useChatStore = defineStore('chat', {
       return !!state.activeChatId
     },
     isMessageToSendLoading: (state) => state.isSendingMessage,
+    createChatHasError: (state) => state.isCreateChatHasError,
   },
   actions: {
     async addMessage(
@@ -181,7 +184,6 @@ export const useChatStore = defineStore('chat', {
           return
         }
         this.isSendingMessage = false
-
         result.messages.push({
           id: uuidv4(),
           text: message,
@@ -190,9 +192,10 @@ export const useChatStore = defineStore('chat', {
           created: new Date(),
         })
       } catch {
-        throw new Error('Failed to send message')
+        throw new Error()
+      } finally {
+        this.isSendingMessage = false
       }
-      this.isSendingMessage = false
     },
 
     setActiveChat(chatId: string) {
@@ -203,10 +206,18 @@ export const useChatStore = defineStore('chat', {
       this.activeChatId = ''
     },
 
+    clearCreateChatError() {
+      this.isCreateChatHasError = false
+    },
+
+    clearAddMessageError() {
+      this.isSendingMessageHasError = false
+    },
+
     async createChat(name: string) {
+      this.clearCreateChatError()
+      this.isChatCreateLoading = true
       try {
-        this.isChatCreateLoading = true
-        this.isChatCreateLoading = true
         await new Promise((resolve) => setTimeout(resolve, 1000))
 
         const newChat: Chat = {
@@ -215,11 +226,12 @@ export const useChatStore = defineStore('chat', {
           messages: [],
           createdAt: new Date(),
         }
-
         this.isChatCreateLoading = false
+
         this.chats.push(newChat)
+        // throw new Error('Failed to create chat 1')
       } catch {
-        this.isChatCreateError = true
+        this.isCreateChatHasError = true
         throw new Error('Failed to create chat 2')
       } finally {
         this.isChatCreateLoading = false
