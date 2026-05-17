@@ -3,39 +3,21 @@ import { ElAside, ElButton, ElAlert } from 'element-plus'
 import { Plus } from '@element-plus/icons-vue'
 import { useChatStore } from '@/features/chat/stores/chatStore'
 import ChatList from './ChatList.vue'
-import { ref } from 'vue'
 import CreateChatForm from './CreateChatForm.vue'
-import { useError } from '@/composables/useError'
-import { isTextEmpty } from '../utils/chatUtils'
+import { useChatCreation } from '@/composables/useChatCreation'
 
-const { chats, createChat, clearCreateChatError } = useChatStore()
-const { errorMessage, setError, clearError } = useError()
-
-const isModalVisible = ref(false)
-const newChatName = ref('')
-const openCreateChatModal = () => {
-  newChatName.value = ''
-  isModalVisible.value = true
-  clearCreateChatError()
-  clearError()
-}
-
-const closeCreateChatModal = () => {
-  isModalVisible.value = false
-}
-
-const handleCreateChat = async () => {
-  if (!isTextEmpty(newChatName.value)) {
-    try {
-      closeCreateChatModal()
-      await createChat(newChatName.value)
-    } catch {
-      setError('Could not create a chat. Try again')
-    } finally {
-      closeCreateChatModal()
-    }
-  }
-}
+const { chats } = useChatStore()
+const {
+  isModalOpen,
+  newChatName,
+  isCreatingChat,
+  errorMessage,
+  canCreateChat,
+  openModal,
+  closeModal,
+  createChat,
+  clearError,
+} = useChatCreation()
 </script>
 
 <template>
@@ -48,7 +30,9 @@ const handleCreateChat = async () => {
         round
         class="new-chat-btn"
         :icon="Plus"
-        @click="openCreateChatModal"
+        @click="openModal"
+        :disabled="canCreateChat"
+        :loading="isCreatingChat"
         >New Chat</ElButton
       >
     </div>
@@ -58,14 +42,14 @@ const handleCreateChat = async () => {
       :title="errorMessage"
       type="error"
       show-icon
-      @close="clearCreateChatError"
+      @close="clearError"
     />
     <CreateChatForm
-      :isModalVisible="isModalVisible"
+      :isModalOpen="isModalOpen"
       :newChatName="newChatName"
-      :closeCreateChatModal="closeCreateChatModal"
+      :closeModal="closeModal"
       @update:newChatName="newChatName = $event"
-      @createChat="handleCreateChat"
+      @createChat="createChat"
     />
     <ChatList :chats="chats" />
   </ElAside>

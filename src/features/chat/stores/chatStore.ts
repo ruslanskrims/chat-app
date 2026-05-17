@@ -201,7 +201,6 @@ export const useChatStore = defineStore('chat', {
       this.isChatCreateLoading = true
       try {
         await new Promise((resolve) => setTimeout(resolve, 1000))
-
         const newChat: Chat = {
           id: uuidv4(),
           title: name,
@@ -238,10 +237,10 @@ export const useChatStore = defineStore('chat', {
         return
       }
 
-      const actualChat = this.chats.find((c) => c.id === chatId)
+      const activeChat = this.chats.find((c) => c.id === chatId)
 
       const existingBotName =
-        actualChat?.messages.find((c) => c.senderType === SenderEnumTypes.Bot)?.sender || ''
+        activeChat?.messages.find((c) => c.senderType === SenderEnumTypes.Bot)?.sender || ''
 
       const botMessage: Message = {
         id: uuidv4(),
@@ -251,8 +250,8 @@ export const useChatStore = defineStore('chat', {
         created: new Date(),
       }
 
-      if (actualChat) {
-        actualChat.messages.push(botMessage)
+      if (activeChat) {
+        activeChat.messages.push(botMessage)
       }
     },
 

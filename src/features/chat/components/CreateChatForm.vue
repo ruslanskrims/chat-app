@@ -4,18 +4,18 @@ import { computed } from 'vue'
 import { isTextEmpty } from '../utils/chatUtils'
 
 const createChatFormProps = defineProps<{
-  isModalVisible: boolean
+  isModalOpen: boolean
   newChatName: string
-  closeCreateChatModal: () => void
+  closeModal: () => void
 }>()
 
 const emit = defineEmits<{ 'update:newChatName': [value: string]; createChat: [] }>()
 
 const modalVisible = computed({
-  get: () => createChatFormProps.isModalVisible,
+  get: () => createChatFormProps.isModalOpen,
   set: (value) => {
     if (!value) {
-      createChatFormProps.closeCreateChatModal()
+      createChatFormProps.closeModal()
     }
   },
 })
@@ -42,7 +42,7 @@ const handleCreateChat = () => {
   >
     <ElInput v-model="chatName" placeholder="Enter chat name" class="create-chat-modal__input" />
     <ElContainer class="create-chat-modal__actions">
-      <ElButton type="danger" @click="closeCreateChatModal">Cancel</ElButton>
+      <ElButton type="danger" @click="closeModal">Cancel</ElButton>
       <ElButton
         type="primary"
         @click="handleCreateChat"
