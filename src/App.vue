@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import Header from '@/shared/Header.vue'
+import ChatHeader from '@/shared/ChatHeader.vue'
 </script>
 
 <template>
-  <Header />
+  <ChatHeader />
   <div class="layout">
     <RouterView />
   </div>
