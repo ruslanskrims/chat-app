@@ -4,6 +4,7 @@
   "private": true,
   "type": "module",
   "scripts": {
+    "deploy": "npm run build && npx gh-pages -d dist -b gh-pages",
     "dev": "vite",
     "build": "run-p type-check \"build-only {@}\" --",
     "preview": "vite preview",
@@ -36,6 +37,7 @@
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-oxlint": "~1.60.0",
     "eslint-plugin-vue": "~10.8.0",
+    "gh-pages": "^6.3.0",
     "jiti": "^2.6.1",
     "npm-run-all2": "^8.0.4",
     "oxfmt": "^0.45.0",
