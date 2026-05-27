@@ -1,48 +1,33 @@
-# chat-app
+# Chat App
 
-This template should help get you started developing with Vue 3 in Vite.
+## Application Description
 
-## Recommended IDE Setup
+The goal was to create a chat app using Vue.js, Vue Router for routing, the Pinia state management tool, and the Element Plus UI library.
 
-[VS Code](https://code.visualstudio.com/) + [Vue (Official)](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+### Implemented features
+- **Chat list sidebar** - displays all conversations
+- **Chat creation** - user can create a new chat and start messaging the bot
+- **Chat selection** - updates URL (`/chat/:id`) and highlights an active chat
+- **Message display** - shows messages for selected chat
+- **Send messages** - user can send a message to the bot by using textarea with validation (non-empty)
+- **Pseudo bot simulation** - auto-reply after user message
+- **Storage** - messages stored in Pinia
 
-## Recommended Browser Setup
+### Decisions
+- **Composables** - extracted message logic, chat logic, and bot logic from components
+- **Pinia store** - centralized state for chats, messages, active chat ID
+- **Router** - ability to navigate between chats
 
-- Chromium-based browsers (Chrome, Edge, Brave, etc.):
-  - [Vue.js devtools](https://chromewebstore.google.com/detail/vuejs-devtools/nhdogjmejiglipccpnnnanhbledajbpd)
-  - [Turn on Custom Object Formatter in Chrome DevTools](http://bit.ly/object-formatters)
-- Firefox:
-  - [Vue.js devtools](https://addons.mozilla.org/en-US/firefox/addon/vue-js-devtools/)
-  - [Turn on Custom Object Formatter in Firefox DevTools](https://fxdx.dev/firefox-devtools-custom-object-formatters/)
+## TODOs
 
-## Type Support for `.vue` Imports in TS
+- **To add back-end and db** - create a back-end project, add database. Back-end should communicate with the client;
+- **WebSockets** - replace simulated bot with real-time communication with users;
+- **Virtual scrolling** - optimize rendering of the messages and chats;
+- **"Favorites" tab** - using dynamic components. Add categories for the chats - "Favourite" and "All"
+- **Deployment to GitHub Pages or any other platform**
 
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) to make the TypeScript language service aware of `.vue` types.
+## How to Run
 
-## Customize configuration
-
-See [Vite Configuration Reference](https://vite.dev/config/).
-
-## Project Setup
-
-```sh
+```bash
 npm install
-```
-
-### Compile and Hot-Reload for Development
-
-```sh
 npm run dev
-```
-
-### Type-Check, Compile and Minify for Production
-
-```sh
-npm run build
-```
-
-### Lint with [ESLint](https://eslint.org/)
-
-```sh
-npm run lint
-```
